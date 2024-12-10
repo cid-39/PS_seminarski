@@ -169,6 +169,29 @@ public class DBBroker {
             throw e;
         }
     }
+    
+    public int deleteRoba(long robaId) throws SQLException{
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM DbRb WHERE idRoba=?");
+            statement.setLong(1, robaId);
+            int affectedrows = statement.executeUpdate();
+            
+            PreparedStatement statement2 = connection.prepareStatement("DELETE FROM Roba WHERE idRoba=?");
+            statement2.setLong(1, robaId);
+            int affectedrows2 = statement2.executeUpdate();
+            
+            if (affectedrows==affectedrows2) {
+                connection.commit();
+                return affectedrows;
+            } else throw new SQLException("Ne poklapaju se broj obrisanih u roba i u dbrb");
+        } catch (SQLException e) {
+            System.out.println("DBBroker: error in deleteRoba");
+            System.out.println("DBBroker: doing rollback");
+            connection.rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
     ///     KRAJ ROBE
     
     ///     KUPAC

@@ -10,6 +10,7 @@ import domain.Roba;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -18,14 +19,17 @@ import javax.swing.table.TableModel;
  * @author cid
  */
 public class PanelMojiProizvodi extends javax.swing.JPanel {
+    Controller controller;
     DefaultTableModel dtm;
     Dobavljac dobavljac;
+    LinkedList<Roba> robaDobavljaca = new LinkedList<>();
     /**
      * Creates new form PanelMojiProizvodi
      */
     public PanelMojiProizvodi(Dobavljac dobavljac) {
         initComponents();
         
+        controller = Controller.getInstance();
         this.dobavljac = dobavljac;
         initTable();
         jTable1.addContainerListener(new ContainerListener() {
@@ -55,11 +59,11 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        PretragaTextField = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(234, 216, 192));
         setLayout(new java.awt.BorderLayout());
@@ -102,92 +106,134 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(234, 216, 192));
+        jPanel1.setMinimumSize(new java.awt.Dimension(620, 40));
+        jPanel1.setPreferredSize(new java.awt.Dimension(620, 40));
 
-        jButton1.setText("novi");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        PretragaTextField.setBackground(new java.awt.Color(167, 146, 119));
+        PretragaTextField.setForeground(new java.awt.Color(84, 51, 16));
+        PretragaTextField.setMinimumSize(new java.awt.Dimension(140, 25));
+        PretragaTextField.setPreferredSize(new java.awt.Dimension(140, 25));
+        PretragaTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                PretragaTextFieldActionPerformed(evt);
             }
         });
 
-        jButton2.setText("izmeni");
-
-        jButton3.setText("obrisi");
-
-        jTextField1.setText("jTextField1");
-
-        jButton4.setText("pretrazi");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setBackground(new java.awt.Color(209, 187, 158));
+        jButton5.setForeground(new java.awt.Color(84, 51, 16));
+        jButton5.setText("Pretrazi");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
+
+        jButton6.setBackground(new java.awt.Color(209, 187, 158));
+        jButton6.setForeground(new java.awt.Color(84, 51, 16));
+        jButton6.setText("Obrisi");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setBackground(new java.awt.Color(209, 187, 158));
+        jButton7.setForeground(new java.awt.Color(84, 51, 16));
+        jButton7.setText("Nova Roba");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(209, 187, 158));
+        jButton8.setForeground(new java.awt.Color(84, 51, 16));
+        jButton8.setText("Primeni izmene");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(31, 31, 31))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(PretragaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addComponent(jButton8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(35, 35, 35))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(PretragaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        add(jPanel1, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void PretragaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PretragaTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_PretragaTextFieldActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String token = PretragaTextField.getText().strip().toLowerCase();
+        dtm.setRowCount(0);
+        for(Roba r : robaDobavljaca) {
+          if (r.getNaziv().toLowerCase().contains(token))
+            dtm.addRow(new Object[]{ r.getIdRoba(), r.getNaziv(), r.getOpis(), r.getDostupnaKolicina(), r.getCena()});
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int[] redovi = jTable1.getSelectedRows();
+        LinkedList<Long> listId = new LinkedList<>();
+        for (int red : redovi)
+            listId.add( (Long) jTable1.getValueAt(red, 0) );
+        int affected = controller.deleteRoba(listId);
+        if (affected==1)
+            JOptionPane.showMessageDialog(this, "Uspesno obrisana roba.");
+        else if (affected > 1) JOptionPane.showMessageDialog(this, "Uspesno obrisano "+affected+" roba.");
+        initTable();
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JTextField PretragaTextField;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     private void initTable() {
         Controller controller = Controller.getInstance();
         LinkedList<Roba> robe = controller.getRobaForDobavljac(dobavljac.getIdDobavljac());
         TableModel tm = jTable1.getModel();
-        DefaultTableModel dtm = (DefaultTableModel) tm;
+        dtm = (DefaultTableModel) tm;
         dtm.setRowCount(0);
         for(Roba r : robe) {
           dtm.addRow(new Object[]{ r.getIdRoba(), r.getNaziv(), r.getOpis(), r.getDostupnaKolicina(), r.getCena()});
+          robaDobavljaca.add(r);
         }
     }
 }

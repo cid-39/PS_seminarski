@@ -77,4 +77,17 @@ public class Controller {
             System.out.println("Controller: error in insertRoba");
         }
     }
+    
+    public int deleteRoba(LinkedList<Long> robaID) {
+        int affectedRows=0;
+        try {
+            for (Long id : robaID)
+                affectedRows += broker.deleteRoba(id);
+            return affectedRows;
+        } catch (SQLException ex) {
+            System.out.println("Controller: error in deleteRoba");
+            return 0;    
+        }
+    }
 }
+
