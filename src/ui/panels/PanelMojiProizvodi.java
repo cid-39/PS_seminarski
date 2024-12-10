@@ -7,12 +7,15 @@ package ui.panels;
 import controller.Controller;
 import domain.Dobavljac;
 import domain.Roba;
+import java.awt.Frame;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.util.LinkedList;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import ui.forms.NewRobaForm;
 
 /**
  *
@@ -184,7 +187,9 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        JDialog novaRoba = new NewRobaForm((Frame) getTopLevelAncestor(), true, dobavljac);
+        novaRoba.setVisible(true);
+        initTable();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void PretragaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PretragaTextFieldActionPerformed
@@ -202,14 +207,16 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         int[] redovi = jTable1.getSelectedRows();
+        if (redovi.length==0) return;
         LinkedList<Long> listId = new LinkedList<>();
         for (int red : redovi)
             listId.add( (Long) jTable1.getValueAt(red, 0) );
         int affected = controller.deleteRoba(listId);
+        initTable();
         if (affected==1)
             JOptionPane.showMessageDialog(this, "Uspesno obrisana roba.");
-        else if (affected > 1) JOptionPane.showMessageDialog(this, "Uspesno obrisano "+affected+" roba.");
-        initTable();
+        else if (affected > 1) JOptionPane.showMessageDialog(this, "Uspesno obrisano "+affected+" robe.");
+        
         
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -231,6 +238,7 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         TableModel tm = jTable1.getModel();
         dtm = (DefaultTableModel) tm;
         dtm.setRowCount(0);
+        robaDobavljaca.clear();
         for(Roba r : robe) {
           dtm.addRow(new Object[]{ r.getIdRoba(), r.getNaziv(), r.getOpis(), r.getDostupnaKolicina(), r.getCena()});
           robaDobavljaca.add(r);
