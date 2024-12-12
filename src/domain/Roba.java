@@ -4,6 +4,8 @@
  */
 package domain;
 
+import java.util.Objects;
+
 /**
  *
  * @author cid
@@ -76,6 +78,36 @@ public class Roba {
     @Override
     public String toString() {
         return "Roba{" + "idRoba=" + idRoba + ", naziv=" + naziv + ", opis=" + opis + ", dostupnaKolicina=" + dostupnaKolicina + ", cena=" + cena + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Roba other = (Roba) obj;
+        if (this.dostupnaKolicina != other.dostupnaKolicina) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.cena) != Double.doubleToLongBits(other.cena)) {
+            return false;
+        }
+        if (!Objects.equals(this.naziv, other.naziv)) {
+            return false;
+        }
+        return Objects.equals(this.opis, other.opis);
     }
     
     

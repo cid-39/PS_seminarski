@@ -170,6 +170,29 @@ public class DBBroker {
         }
     }
     
+    public int updateRoba(Roba roba) throws SQLException {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE Roba SET naziv=?, opis=?, dostupnaKolicina=?, cena=? WHERE idRoba=?");
+            statement.setString(1, roba.getNaziv());
+            statement.setString(2, roba.getOpis());
+            statement.setInt(3, roba.getDostupnaKolicina());
+            statement.setDouble(4, roba.getCena());
+            statement.setLong(5, roba.getIdRoba());
+            
+            int affectedrows = statement.executeUpdate();
+            if (affectedrows==1) {
+                connection.commit();
+                return affectedrows;
+            } else throw new SQLException("UpdateRobe nije promenio jedan red (0 ili vise)");
+        } catch (SQLException e) {
+            System.out.println("DBBroker: error in updateRoba");
+            System.out.println("DBBroker: doing rollback");
+            connection.rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    
     public int deleteRoba(long robaId) throws SQLException{
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM DbRb WHERE idRoba=?");

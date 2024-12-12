@@ -26,6 +26,10 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
     DefaultTableModel dtm;
     Dobavljac dobavljac;
     LinkedList<Roba> robaDobavljaca = new LinkedList<>();
+    
+    
+    Roba beforeModified;
+    LinkedList<Roba> izmene=new LinkedList<>();
     /**
      * Creates new form PanelMojiProizvodi
      */
@@ -38,14 +42,61 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         jTable1.addContainerListener(new ContainerListener() {
             @Override
             public void componentAdded(ContainerEvent ce) {
-//                (javax.swing.JTable)ce.getContainer())
+                try{
+                    int red = ((javax.swing.JTable) ce.getContainer()).getSelectedRow();
+                
+                    long id = (long)jTable1.getValueAt(red, 0);
+                    String naziv= (String)jTable1.getValueAt(red, 1);
+                    String opis= (String)jTable1.getValueAt(red, 2);
+
+                    Object kolObj =jTable1.getValueAt(red, 3);
+                    int kol;
+                    if (kolObj instanceof Integer) {
+                        kol = (int) jTable1.getValueAt(red, 3);
+                    } else { kol = Integer.parseInt((String) jTable1.getValueAt(red, 3));}
+
+                    Object cenaObj = jTable1.getValueAt(red, 4);
+                    double cena;
+                    if (cenaObj instanceof Double) {
+                        cena = (double) jTable1.getValueAt(red, 4);;
+                    } else { cena = Double.parseDouble((String) jTable1.getValueAt(red, 4));}
+                    beforeModified = new Roba(id, naziv, opis, kol, cena);
+                } catch (NumberFormatException e) {
+                    initTable();
+                    JOptionPane.showMessageDialog(null, "Greska pri izmeni podataka, tabela osvezana.", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                }
             }
 
             @Override
             public void componentRemoved(ContainerEvent ce) {
-                int red = ((javax.swing.JTable)ce.getContainer()).getEditingRow();
-//                dtm.getValueAt(red, indekskolone)
-                System.out.println(red);
+                try{
+                    int red = ((javax.swing.JTable)ce.getContainer()).getEditingRow();
+                    long id = (long)jTable1.getValueAt(red, 0);
+                    String naziv= (String)jTable1.getValueAt(red, 1);
+                    String opis= (String)jTable1.getValueAt(red, 2);
+
+                    Object kolObj =jTable1.getValueAt(red, 3);
+                    int kol;
+                    if (kolObj instanceof Integer) {
+                        kol = (int) jTable1.getValueAt(red, 3);
+                    } else { kol = Integer.parseInt((String) jTable1.getValueAt(red, 3));}
+
+                    Object cenaObj = jTable1.getValueAt(red, 4);
+                    double cena;
+                    if (cenaObj instanceof Double) {
+                        cena = (double) jTable1.getValueAt(red, 4);
+                    } else { cena = Double.parseDouble((String) jTable1.getValueAt(red, 4));}
+
+                    Roba izmena = new Roba(id, naziv, opis, kol, cena);
+
+                    if (!beforeModified.equals(izmena)) {
+                        izmene.add(izmena);
+                    }   
+                } catch (NumberFormatException e) {
+                        initTable();
+                        izmene = new LinkedList<>();
+                        JOptionPane.showMessageDialog(null, "Greska pri izmeni podataka, tabela osvezana.", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                    }
             }
         });
     }
@@ -67,6 +118,7 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(234, 216, 192));
         setLayout(new java.awt.BorderLayout());
@@ -152,6 +204,20 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(209, 187, 158));
         jButton8.setForeground(new java.awt.Color(84, 51, 16));
         jButton8.setText("Primeni izmene");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(209, 187, 158));
+        jButton9.setForeground(new java.awt.Color(84, 51, 16));
+        jButton9.setText("Zaboravi izmene");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,7 +228,9 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
                 .addComponent(PretragaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addComponent(jButton9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
@@ -179,7 +247,8 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
                     .addComponent(jButton5)
                     .addComponent(jButton6)
                     .addComponent(jButton7)
-                    .addComponent(jButton8))
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -220,6 +289,19 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if (izmene == null || izmene.isEmpty()) return;
+        prepareIzmene();
+        controller.getInstance().updateRoba(izmene);
+        initTable();
+        jButton5ActionPerformed(null);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        initTable();
+        izmene = new LinkedList<>();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField PretragaTextField;
@@ -227,6 +309,7 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -243,5 +326,18 @@ public class PanelMojiProizvodi extends javax.swing.JPanel {
           dtm.addRow(new Object[]{ r.getIdRoba(), r.getNaziv(), r.getOpis(), r.getDostupnaKolicina(), r.getCena()});
           robaDobavljaca.add(r);
         }
+    }
+
+    private void prepareIzmene() {
+        izmene = izmene.reversed();
+        LinkedList<Long> id = new LinkedList<>();
+        LinkedList<Roba> finalIzmene = new LinkedList<>();
+        for (Roba roba : izmene) {
+            if (!id.contains(roba.getIdRoba())) {
+                id.add(roba.getIdRoba());
+                finalIzmene.add(roba);
+            }
+        }
+        izmene = finalIzmene;
     }
 }

@@ -61,6 +61,18 @@ public class Controller {
         return null;
     }
     
+    public int updateRoba(LinkedList<Roba> izmene) {
+        int affectedRows = 0;
+        try {
+            for (Roba roba : izmene) {
+                affectedRows += broker.updateRoba(roba);
+            }
+        } catch (SQLException e) {
+            System.out.println("Controller: error in updateRoba");
+        }
+        return affectedRows;
+    }
+    
     public LinkedList<Roba> getRobaForDobavljac(int idDobavljac) {
         try {
             return broker.getRobaForDobavljac(idDobavljac);
